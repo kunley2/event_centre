@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,request,redirect
-from .openai import get_recommendation
+from .openai import get_recommendation,recommend_places
 
 views = Blueprint('views',__name__)
 
@@ -20,7 +20,7 @@ def output():
         event_type = request.form.get('event_type')
         Location = request.form.get('Location')
         capacity = request.form.get('capacity')
-        response = get_recommendation(Location,event_type,capacity)
+        response = recommend_places(Location,event_type,capacity)
         print(response)
         
     return render_template('output.html', event_type=event_type, response=response)

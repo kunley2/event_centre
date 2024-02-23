@@ -12,6 +12,9 @@ from langchain_openai import AzureOpenAI
 
 #setup tools
 from langchain_community.utilities import GoogleSearchAPIWrapper,SerpAPIWrapper
+from langchain_community.tools import GooglePlacesTool
+from langchain.agents import initialize_agent,AgentType
+
 
 
 search = GoogleSearchAPIWrapper()
@@ -134,3 +137,30 @@ def get_recommendation(location:str, event_type:str, total_people:str):
     """
     ans = agent_executor.run(prompt)
     return ans
+
+
+def recommend_places(location:str, event_type:str, total_people:str):
+    llm = AzureOpenAI(
+        deployment_name="mypod",
+        azure_endpoint=os.environ["azure_endpoint"],
+        # model_name="gpt-3.5-turbo",
+    )
+    places = GooglePlacesTool()
+    tools = [places]
+    agent = initialize_agent(
+        tools=tools,
+        agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        llm=llm,
+        verbose=True,
+        handle_parsing_errors=True,
+    )
+    type_of_event = input('type of event to go for: ')
+    location = input('please put in the location you want to get recommendation for: ')
+    amount_of_people = input('Please put in the amount of people to attend the event: ')
+
+    prompt = f"""You are an Event recommendation AI and you are tasked to find the top 5 best venue for an event with their locations given the following fields.
+    Think properly for the action, if you dont know any venue say you dont know, dont try to make up funny event venues.
+    Question: find a good event around {location} for {type_of_event} event that can accomodate {amount_of_people} people 
+    """
+    response = agent.invoke(prompt)
+    return response

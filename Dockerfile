@@ -24,4 +24,4 @@ RUN apt install -y xvfb
 
 RUN pip install -r requirements.txt 
 
-CMD ["flask", "--app","main","run","--host","0.0.0.o"]
+CMD ["flask", "--app","main","run","--host","0.0.0.0"]
