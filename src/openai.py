@@ -129,7 +129,7 @@ def get_recommendation(location:str, event_type:str, total_people:str):
 
     memory=ConversationBufferWindowMemory(k=2)
 
-    agent_executor = AgentExecutor.from_agent_and_tools(agent=agent, tools=tools, verbose=True, memory=memory)
+    agent_executor = AgentExecutor.from_agent_and_tools(agent=agent, tools=tools, verbose=False, memory=memory)
 
     prompt = f"""You are an Event recommendation AI and you are tasked to find the top 5 best venue for an event with their locations given the following fields.
     Think properly for the action, if you dont know any venue say you dont know, dont try to make up funny event venues.
@@ -151,7 +151,7 @@ def recommend_places(location:str, event_type:str, total_people:str):
         tools=tools,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         llm=llm,
-        verbose=True,
+        verbose=False,
         handle_parsing_errors=True,
     )
     
