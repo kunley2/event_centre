@@ -143,7 +143,7 @@ def recommend_places(location:str, event_type:str, total_people:str):
     llm = AzureOpenAI(
         deployment_name="mypod",
         azure_endpoint=os.environ["azure_endpoint"],
-        # model_name="gpt-3.5-turbo",
+        model_name="gpt-3.5-turbo",
     )
     places = GooglePlacesTool()
     tools = [places]
@@ -154,13 +154,10 @@ def recommend_places(location:str, event_type:str, total_people:str):
         verbose=True,
         handle_parsing_errors=True,
     )
-    type_of_event = input('type of event to go for: ')
-    location = input('please put in the location you want to get recommendation for: ')
-    amount_of_people = input('Please put in the amount of people to attend the event: ')
-
+    
     prompt = f"""You are an Event recommendation AI and you are tasked to find the top 5 best venue for an event with their locations given the following fields.
     Think properly for the action, if you dont know any venue say you dont know, dont try to make up funny event venues.
-    Question: find a good event around {location} for {type_of_event} event that can accomodate {amount_of_people} people 
+    Question: find a good event around {location} for {event_type} event that can accomodate {total_people} people 
     """
     response = agent.invoke(prompt)
-    return response
+    return response['output']
