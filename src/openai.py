@@ -5,7 +5,7 @@ from langchain.chains import LLMChain
 from typing import List, Union
 from langchain.schema import AgentAction, AgentFinish
 from langchain.memory import ConversationBufferWindowMemory
-from langchain.tools import GooglePlacesTool
+from langchain_community.tools import GooglePlacesTool
 import re
 import os
 from langchain_openai import AzureOpenAI
