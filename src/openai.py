@@ -5,6 +5,7 @@ from langchain.chains import LLMChain
 from typing import List, Union
 from langchain.schema import AgentAction, AgentFinish
 from langchain.memory import ConversationBufferWindowMemory
+from langchain.tools import GooglePlacesTool
 import re
 import os
 from langchain_openai import AzureOpenAI
@@ -12,12 +13,6 @@ from langchain_openai import AzureOpenAI
 #setup tools
 from langchain_community.utilities import GoogleSearchAPIWrapper,SerpAPIWrapper
 
-os.environ["GOOGLE_CSE_ID"] = 'd401c14d00fb84085'
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyB8L0bfzt1stmY2kddYi9Rb3HFIrEk1Pmk'
-os.environ["OPENAI_API_TYPE"] = "azure"
-os.environ["OPENAI_API_VERSION"] = "2023-05-15"
-# os.environ["azure_endpoint"] = "https://kunle-event.openai.azure.com/"
-os.environ["OPENAI_API_KEY"] = "96d9181b4d4e499ba486623caa1d8879"
 
 search = GoogleSearchAPIWrapper()
 tools = [
@@ -112,12 +107,9 @@ def get_recommendation(location:str, event_type:str, total_people:str):
 
     output_parser = CustomOutputParser()
 
-    #setup llm
-    # os.environ["OPENAI_API_KEY"] = openai_key
-
     llm = AzureOpenAI(
         deployment_name="mypod",
-        azure_endpoint="https://kunle-event.openai.azure.com/",
+        azure_endpoint=os.environ["azure_endpoint"],
         # model_name="gpt-3.5-turbo",
     )
 

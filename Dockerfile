@@ -1,6 +1,6 @@
 FROM python:3.9.13
 # Image from dockerhub
-EXPOSE 8000 
+EXPOSE 5000 
 # Expose the port 8000 in which our application runs
 RUN apt update
 RUN apt install -y git
@@ -8,7 +8,7 @@ RUN apt install git-lfs
 # Install git
 
 # ARG test=test12
-ENV PORT=8000
+ENV PORT=5000
 
 RUN echo "The ARG variable value is $PORT"
 
